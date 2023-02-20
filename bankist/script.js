@@ -45,3 +45,12 @@ learnMoreButton.addEventListener('click', function () {
   // });
   sectionOne.scrollIntoView({ behavior: 'smooth' });
 });
+
+// Page Navigation
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
