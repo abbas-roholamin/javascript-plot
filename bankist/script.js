@@ -175,3 +175,71 @@ const featureObserver = new IntersectionObserver(hanldeObserver, {
 featureImages.forEach(image => {
   featureObserver.observe(image);
 });
+
+// Slider
+const slider = document.querySelector('.slider');
+const slides = document.querySelectorAll('.slide');
+const nextBtn = document.querySelector('.slider__btn--right');
+const prevBtn = document.querySelector('.slider__btn--left');
+const dots = document.querySelector('.dots');
+
+let currentSlide = 0;
+let slideNumber = slides.length;
+
+(function () {
+  slides.forEach((_, index) => {
+    dots.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide='${index}'></button>`
+    );
+  });
+})();
+
+const activeDot = function (slide) {
+  document.querySelectorAll('.dots__dot').forEach(function (el) {
+    el.classList.remove('dots__dot--active');
+  });
+
+  document
+    .querySelector(`.dots__dot[data-slide='${slide}']`)
+    .classList.add('dots__dot--active');
+};
+
+const showingSilde = function (currentSlide) {
+  slides.forEach((slide, index) => {
+    slide.style.transform = `translateX(${100 * (index - currentSlide)}%)`;
+  });
+  activeDot(currentSlide);
+};
+showingSilde(currentSlide);
+
+const nextSlide = function () {
+  if (currentSlide == slideNumber - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  showingSilde(currentSlide);
+};
+
+const prevSlide = function () {
+  if (currentSlide == 0) {
+    currentSlide = slideNumber - 1;
+  } else {
+    currentSlide--;
+  }
+  showingSilde(currentSlide);
+};
+
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
+document.addEventListener('keydown', function (e) {
+  e.key === 'ArrowRight' && nextSlide();
+  e.key === 'ArrowLeft' && prevSlide();
+});
+dots.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const { slide } = e.target.dataset;
+    showingSilde(slide);
+  }
+});
