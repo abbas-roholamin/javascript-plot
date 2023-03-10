@@ -1,0 +1,32 @@
+/** @format */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: "monosapce", sans-serif;
+  line-height: 1.5;
+}
+
+article {
+  margin: 10% 20%;
+}
+section {
+  margin: 2rem 0;
+}
+
+h3 {
+  padding: 1rem 0;
+}
+
+#progress_bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 8px;
+  background-color: #ddd;
+  width: 0%;
+  z-index: 100;
+}
