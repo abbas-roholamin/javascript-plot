@@ -16,6 +16,7 @@ class App {
 
   constructor() {
     this._getPosition();
+    this._getLocalStorage();
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationFeild);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -43,6 +44,11 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this));
+
+    // SHOW MARKERS
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(e) {
@@ -119,6 +125,9 @@ class App {
 
     // HIDE FORM
     this._hideForm();
+
+    // SAVE WORKOUTS TO LOCALSTORAGE
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -207,6 +216,27 @@ class App {
         duration: 1,
       },
     });
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+
+    this.#workouts = data;
+
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 
   _validInputs = (...inputs) => inputs.every(input => Number.isFinite(input));
